@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Apps</title>
+    <link rel="icon" type="image/x-icon" href="myappss.svg">
+    <link rel = "stylesheet" href = "style3.css">
+    <style>
+        body {
+            <center>
+            margin: 0;
+            padding: 0;
+            background-color: #747d40
+        }
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            margin: 0 auto;
+            background-color: #7f8cea;
+            overflow: hidden;
+        }
+        #bird {
+            position: absolute;
+            width: 50px;
+            height: 28px;
+            background-color: #7f8cea;
+            background-image: url('bird.png');
+            background-position: 0px 0px; /* Adjust these values to show the correct sprite */
+            background-repeat: no-repeat;
+        }
+        .pipe {
+            position: absolute;
+            width: 60px;
+            background-color: #1a521a;
+            outline: none; /* Remove outline */
+        }
+    </center>
+    </style>
+</head>
+<body>
+    <br><br><br><br><br><br><br>
+    <center>
+    <div id="game-container">
+        <div id="bird"></div>
+        <div class="pipe" style="height: 250px; top: 0; left: 200px;"></div>
+        <div class="pipe" style="height: 300px; top: 400px; left: 300px;"></div>
+    </div>
+    </center>   
+    <script>
+        const bird = document.getElementById("bird");
+        let birdTop = 250;
+        let birdLeft = 50;
+        let gravity = 2;
+        let gameSpeed = 2;
+        let isGameOver = false;
+
+        function jump() {
+            if (!isGameOver) {
+                birdTop -= 50;
+            }
+        }
+
+        document.addEventListener("keydown", jump);
+
+        function gameLoop() {
+            if (!isGameOver) {
+                birdTop += gravity;
+                bird.style.top = birdTop + "px";
+            }
+
+            if (birdTop <= 0 || birdTop >= 560) {
+                gameOver();
+            }
+
+            const pipes = document.querySelectorAll(".pipe");
+            pipes.forEach(pipe => {
+                const pipeLeft = parseInt(pipe.style.left);
+                if (pipeLeft > -60) {
+                    pipe.style.left = pipeLeft - gameSpeed + "px";
+
+                    // Check for collision
+                    if (
+                        birdLeft + 40 > pipeLeft &&
+                        birdLeft < pipeLeft + 60 &&
+                        birdTop + 40 > parseInt(pipe.style.top) &&
+                        birdTop < parseInt(pipe.style.top) + parseInt(pipe.style.height)
+                    ) {
+                        gameOver();
+                    }
+                } else {
+                    pipe.style.left = "400px";
+                }
+            });
+
+            if (!isGameOver) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function gameOver() {
+            isGameOver = true;
+            birdTop = 250;
+            isGameOver = false;
+            const pipes = document.querySelectorAll(".pipe");
+            pipes.forEach(pipe => {
+                pipe.style.left = "400px";
+            });
+        }
+
+        gameLoop();
+    
+    </script>
+    <center>
+    <br>
+ <a href = "MyApps.html">
+    <button accesskey="q" id="button9">MyApps</button>
+</a>
+<a href = "index.html">
+    <button id="button10">Take me home</button>
+</a>
+</center>
+</body>
+</html>
+
