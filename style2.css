@@ -1,0 +1,9 @@
+@font-face{
+    font-family: Retro;
+    src: url(RETROTECH.ttf)
+}
+h1 {
+    color: black;
+    font-family: Retro;
+    font-size: 50px;
+}
